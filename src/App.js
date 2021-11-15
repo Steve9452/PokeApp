@@ -17,38 +17,34 @@ function App() {
 
   const [currentPage, setCurrentPage] = useState(0);
 
+  //Para revision unicamente, por si es necesario cambiar la cantidad de pokemos que se muestran
+  const pokemonsOnDisplay = 10;
 
-  const pokemonsOnDisplay = 12;
 
-
-  const nextPage = () => {
-    setCurrentPage(currentPage + pokemonsOnDisplay);
+  const setPage = {
+    prev: () => {currentPage === 0 ? setCurrentPage(currentPage - 2) : setCurrentPage(currentPage - 1)},
+    next: () => {currentPage === -2 ? setCurrentPage(currentPage + 2) : setCurrentPage(currentPage + 1)}
   }
-
-  const prevPage = () => {
-    setCurrentPage(currentPage - pokemonsOnDisplay)
-  }
-
 
 
   useEffect(() => {
-
-    const fetchPokemons = async () => {
+    const fetchPokemons = async (page) => {
       try {
-        const filters = { limit: 200, offset: 0 };
-        const response = await pokemonsServices.getPokemons(filters);
+        // const filters = { limit: 200, offset: 0 };
+        const response = await pokemonsServices.getPokemons({limit:pokemonsOnDisplay, offset: page * pokemonsOnDisplay});
 
         if (!response["success"]) {
           throw new Error("Something was wrong");
         }
 
-        setPokemons(response["pokemons"].slice(currentPage, currentPage + pokemonsOnDisplay));
+        setPokemons(response["pokemons"]);
       } catch (error) {
         console.error(error);
       }
     };
 
-    fetchPokemons();
+    fetchPokemons(currentPage);
+
   }, [currentPage]);
 
   const onAddToPartyHandler = (id) => {
@@ -110,7 +106,7 @@ function App() {
         )}
 
         <Pokedex pokemons={pokemons} onAddToParty={onAddToPartyHandler} />
-        <PagControl prevPage={prevPage} nextPage={nextPage}/>
+        <PagControl prevPage={setPage.prev} nextPage={setPage.next}/>
       </main>
     </div>
   );
