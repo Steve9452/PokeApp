@@ -31,7 +31,7 @@ function App() {
     const fetchPokemons = async (page) => {
       try {
         // const filters = { limit: 200, offset: 0 };
-        const response = await pokemonsServices.getPokemons({limit:pokemonsOnDisplay, offset: page * pokemonsOnDisplay});
+        const response = await pokemonsServices.getPokemons({limit:pokemonsDisplayed, offset: page * pokemonsDisplayed});
 
         if (!response["success"]) {
           throw new Error("Something was wrong");
