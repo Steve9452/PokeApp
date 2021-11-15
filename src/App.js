@@ -14,17 +14,17 @@ function App() {
   const [pokemons, setPokemons] = useState([]);
   const [searchedPokemon, setSearchedPokemon] = useState(null);
   const [party, setParty] = useState([]);
-
   const [currentPage, setCurrentPage] = useState(0);
 
-  //Para revision unicamente, por si es necesario cambiar la cantidad de pokemos que se muestran
-  const pokemonsOnDisplay = 10;
 
+  //Para revision unicamente, por si es necesario cambiar la cantidad de pokemos que se muestran
+  const pokemonsDisplayed = 12;
 
   const setPage = {
     prev: () => {currentPage === 0 ? setCurrentPage(currentPage - 2) : setCurrentPage(currentPage - 1)},
     next: () => {currentPage === -2 ? setCurrentPage(currentPage + 2) : setCurrentPage(currentPage + 1)}
   }
+
 
 
   useEffect(() => {
